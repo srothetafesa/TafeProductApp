@@ -29,18 +29,31 @@ namespace ProductApps
 
         private void calculateButton_Click(object sender, RoutedEventArgs e)
         {
+            int quantity;
+            double price;
+            int delivery = 25;
+            int wrap = 5;
+            double GST = 1.1;
+            double total;
+
             try
             {
-                cProduct = new Product(Convert.ToDecimal(priceTextBox.Text), Convert.ToInt16(quantityTextBox.Text));
-                cProduct.calTotalPayment();
-                totalPaymentTextBlock.Text = Convert.ToString(cProduct.TotalPayment);
-                totalChargeTextBlock.Text = Convert.ToString(cProduct.TotalPayment + 25);
-                wrapChargeTextBlock.Text = Convert.ToString(cProduct.TotalPayment + 25 + 5);
+                quantity = int.Parse(quantityTextBox.Text);
+                price = double.Parse(priceTextBox.Text);
             }
             catch (FormatException)
             {
                 MessageBox.Show("Enter data again", "Data Entry Error");
+                return;
             }
+
+            total = quantity * price;
+
+
+            totalPaymentTextBlock.Text = total.ToString("C");
+            totalChargeTextBlock.Text = (total + delivery).ToString("C");
+            wrapChargeTextBlock.Text = (total + delivery + wrap).ToString("C");
+            gstChargeTextBlock.Text = ((total + delivery + wrap) * GST).ToString("C");
         }
 
         private void clearButton_Click(object sender, RoutedEventArgs e)
